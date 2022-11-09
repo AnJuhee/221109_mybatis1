@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.jh.freeboard.dao.IDao">
+ 	<insert id="joinMemberDao">
+ 		insert into member(mid,mpw,mname,memail) values (#{param1},#{param2},#{param3},#{param4})
+ 	</insert>
+ 	
+ 	<select id="checkIdDao" resultType="int">
+ 		select count(*) from member where mid=#{param1}
+ 	</select>
+ 
+ 	<select id="checkPwDao" resultType="int">
+ 		select count(*) from member where mid=#{param1} and mpw=#{param2}
+ 	</select>
+ 
+</mapper>

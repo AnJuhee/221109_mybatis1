@@ -85,9 +85,68 @@ public class FBoardController {
 			model.addAttribute("mname",mname);
 			
 		} else {
-			model.addAttribute("mname", "guest");
+			model.addAttribute("mname", "손님");
 		}
 		
 		return "loginOk";
+		
+	}
+	
+	@RequestMapping(value = "writeForm")
+	public String wirteForm( HttpServletRequest request, Model model) {
+		
+		IDao dao = sqlSession.getMapper(IDao.class);
+		
+		HttpSession session = request.getSession();
+		String sid = (String) session.getAttribute("sessionId");
+		
+//		System.out.println(sid);
+		
+		if(sid == null) {
+			return "redirect:login";
+		}else {
+	
+			MemberDto dto = dao.memberInfoDao(sid);
+			String mname = dto.getMname();
+			String mid = dto.getMid();
+			model.addAttribute("mname",mname);
+			model.addAttribute("mid",mid);
+	
+			return "writeForm";
+		}
+	}
+	@RequestMapping(value="write")
+	public String write(HttpServletRequest request) {
+		
+		IDao dao = sqlSession.getMapper(IDao.class);
+		
+		HttpSession session = request.getSession();
+		String sid = (String) session.getAttribute("sessionId");
+
+//		String mname="";
+//		String mid="";
+//		
+//		if(sid.equals(null)) {
+//			mname="손님";
+//			mid ="guest";
+//		}else {
+			MemberDto dto = dao.memberInfoDao(sid);
+			String mname = dto.getMname();
+			String mid = dto.getMid();
+//		}
+		String ftitle = request.getParameter("ftitle");
+		String fcontent = request.getParameter("fcontent");
+		
+		dao.writeDao(mid, mname, ftitle, fcontent);
+		return "redirect:list";
+	}
+	@RequestMapping(value = "logout")
+	public String logout(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		session.invalidate();//로그아웃(세션삭제)
+		
+		return "logout";
 	}
 }
+

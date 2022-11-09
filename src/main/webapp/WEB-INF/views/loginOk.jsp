@@ -33,5 +33,7 @@
 	<h2>로그인을 축하드립니다.</h2>
 	<h2>${mid }님 반갑습니다.</h2>
 	<h2>회원 이름 : ${mname}님</h2>
+	<a href="writeForm">글쓰기</a>
+	<a href="logout">로그아웃</a>
 </body>
 </html>
